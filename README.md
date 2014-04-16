@@ -10,36 +10,24 @@ Problem specification
 --------------
 
 The problem is defined as follows:
-
+```
 for i=0..15000
-
   for j=i+1..15000
-
     if i=j then
-
       f_i = i
-
       f_j = j
-
     endif
+```
 
 Implementations
 --------------
 
 The implementations are in the following programming languages:
 
-
-1) Python (using python, pypy)
-
-2) PHP (using php, hhvm)
-
-2) JavaScript (using IE, firefox, chrome)
-
-3) Free pascal compiler
-
-4) C (gcc)
-
-5) OpenMP/C (gcc)
-
-6) OpenCL
+1. Python (using python, pypy)
+2. JavaScript (using IE, firefox, chrome)
+3. Free pascal compiler
+4. C (gcc)
+5. OpenMP/C (gcc)
+6. OpenCL
 
