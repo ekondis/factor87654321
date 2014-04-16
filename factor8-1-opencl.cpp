@@ -5,8 +5,6 @@
 #include <CL/cl.hpp>
 #include <sys/time.h>
 
-//using namespace std;
-
 struct timeval time_check(void){
 	struct timeval t;
 	gettimeofday(&t, NULL);
@@ -35,10 +33,8 @@ int main(void) {
 		if( platforms.size()>1 )
 			std::cout << iP++ << ". ";
 		std::cout << pl->getInfo<CL_PLATFORM_NAME>() << std::endl;
-//		cout << "Devices:" << endl;
 		pl->getDevices(CL_DEVICE_TYPE_ALL, &devices);
 		iD = 1;
-//		cout << "print dev" << endl;
 		for(VECTOR_CLASS<cl::Device>::iterator dev = devices.begin(); dev != devices.end(); ++dev)
 			std::cout << '\t' << iD++ << ". " << dev->getInfo<CL_DEVICE_NAME>() << '/' << dev->getInfo<CL_DEVICE_VENDOR>() << std::endl;
 	}
@@ -55,8 +51,7 @@ int main(void) {
 		std::cin >> iD;
 	} else
 		iD = 1;
-	cl::Device dev = devices[iD-1];//.back();//[0];
-//	cl::Device dev = devices.back();//[0];
+	cl::Device dev = devices[iD-1];
 
 	pl.getInfo(CL_PLATFORM_NAME, &tmp);  
 	std::cout << "Platform: " << tmp << std::endl;
@@ -74,8 +69,7 @@ int main(void) {
 		"	                                  \n"
 		"   if( i<=limit )                    \n"
 		"		for(int j=i+1; j<=limit; j++) \n"
-		"			if( i*j==87654321 ){      \n"
-//		"			if( mul24(i,j)==87654321 ){ \n"
+		"			if( i*j==87654321 ){      \n"  // change to mul24 if 32bit multiplication is too slow
 		"				results[0] = i;       \n"
 		"				results[1] = j;       \n"
 		"			}                         \n"
@@ -89,9 +83,9 @@ int main(void) {
 	std::string buildLog; 
 	program.getBuildInfo(dev, CL_PROGRAM_BUILD_LOG, &buildLog);  
 	std::cout << "Build log:" << std::endl  
-		  << " ******************** " << std::endl  
-		  << buildLog << std::endl  
-		  << " ******************** " << std::endl;
+		<< " ******************** " << std::endl  
+		<< buildLog << std::endl  
+		<< " ******************** " << std::endl;
 
 	cl::Kernel kernel(program, "factor8to1");
 	cl::NDRange globalSize(15040), localSize(64);
@@ -110,7 +104,6 @@ int main(void) {
 //	queue.finish();
 	t = time_check();
 	queue.enqueueNDRangeKernel(kernel, cl::NullRange, globalSize, localSize, NULL, NULL);
-//	queue.enqueueTask(kernel);
 	queue.finish();
 	double elapsedTime = time_done(t);
 

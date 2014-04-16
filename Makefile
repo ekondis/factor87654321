@@ -9,11 +9,31 @@ FLAGS = ${OPTFLAG} ${INCLUDES} -I${OCLSDKINC} -msse -msse2
 LFLAGS = -L${OCLSDKLIB}
 LIBPARS = -lOpenCL -lrt
 
-oclfactor8to1: oclfactor8to1.o
+.PHONY: clean all
+
+all: factor8-1-opencl factor8-1-pas factor8-1 factor8-1-omp
+
+factor8-1-opencl: factor8-1-opencl.o
 	${CPP} ${LFLAGS} -o $@ $< ${LIBPARS}
 
-oclfactor8to1.o: oclfactor8to1.cpp
+factor8-1-opencl.o: factor8-1-opencl.cpp
 	${CPP} -c ${FLAGS} $<
 
+factor8-1-pas: factor8-1.pas
+	fpc -o$@ -O3 -MTP $<
+	rm factor8-1.o
+
+factor8-1: factor8-1.o
+	gcc -o $@ $^
+
+factor8-1.o: factor8-1.c
+	gcc -c -O2 $<
+
+factor8-1-omp: factor8-1-omp.o
+	gcc -o $@ -fopenmp $^
+
+factor8-1-omp.o: factor8-1.c
+	gcc -c -O2 -o $@ -fopenmp $<
+
 clean:
-	rm oclfactor8to1 oclfactor8to1.o
+	rm factor8-1 factor8-1.o factor8-1-omp factor8-1-omp.o factor8-1-pas factor8-1-opencl factor8-1-opencl.o
