@@ -26,20 +26,24 @@ for i=0..15000
 Implementations
 --------------
 
-The implementations are in the following programming languages:
+The provided implementations are written in the following programming languages:
 
 
-1) Python (using python, pypy)
+1) Python
 
-2) PHP (using php, hhvm)
+2) PHP
 
-2) JavaScript (using IE, firefox, chrome)
+2) JavaScript
 
-3) Free pascal compiler
+3) Pascal
 
-4) C (gcc)
+4) C
 
-5) OpenMP/C (gcc)
+5) OpenMP/C
 
 6) OpenCL
 
+Example execution
+---------------
+
+Here are some results of the execution on an AMD Temash APU. More specifically the selected processor was the A6-1450 with 4 CPU cores and a GPU with 2 compute units.
