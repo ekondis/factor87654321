@@ -33,4 +33,17 @@ The provided implementations are written in the following programming languages:
 Example execution
 ---------------
 
-Here are some results of the execution on an AMD Temash APU. More specifically the selected processor was the A6-1450 with 4 CPU cores and a GPU with 2 compute units.
+Here are some results of the execution on an AMD Temash APU. More specifically the selected processor was the A6-1450 with 4 CPU cores and a GPU with 2 compute units (128 total shaders).
+
+Execution | Execution time (msecs)
+:---|-----:
+Python (python 2.7.3, linux) | 42966.24  
+Python (pypy JIT 1.8.0, linux) | 3302.54  
+JavaScript (IE v11, Win8) | 918.00
+JavaScript (Firefox v28, Win8) | 368.00
+JavaScript (Chrome v34, Win8) | 782.00
+Free Pascal Compiler (v.2.4.4, linux) | 710.00
+C (gcc v.4.6.3, linux) | 293.64
+C/OpenMP (gcc v.4.6.3, linux) | 129.53
+OpenCL (CPU, AMD APP, linux) | 174.86
+OpenCL (GPU, AMD APP, linux) | 38.61
