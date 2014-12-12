@@ -12,7 +12,7 @@ The problem is defined as follows:
 ```
 for i=1..15000
   for j=i+1..15000
-    if i=j then
+    if i*j=87654321 then
       f_i = i
       f_j = j
     endif
