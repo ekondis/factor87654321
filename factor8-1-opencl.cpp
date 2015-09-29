@@ -3,23 +3,6 @@
 #include <iostream>  
 #include <string>  
 #include <CL/cl.hpp>
-#include <sys/time.h>
-
-struct timeval time_check(void){
-	struct timeval t;
-	gettimeofday(&t, NULL);
-	return t;
-}
-
-double time_done(struct timeval t){
-	struct timeval t2;
-	double elapsedTime;
-	gettimeofday(&t2, NULL);
-
-	elapsedTime = (t2.tv_sec - t.tv_sec) * 1000.0;
-	elapsedTime += (t2.tv_usec - t.tv_usec) / 1000.0;
-	return elapsedTime;
-}
   
 int main(void) {  
 	VECTOR_CLASS<cl::Platform> platforms;
@@ -60,7 +43,7 @@ int main(void) {
 	std::cout << "Device:   " << tmp << std::endl;
 
 	cl::Context context = cl::Context(VECTOR_CLASS<cl::Device>(1, dev));  
-	cl::CommandQueue queue = cl::CommandQueue(context, dev);  
+	cl::CommandQueue queue = cl::CommandQueue(context, dev, CL_QUEUE_PROFILING_ENABLE);  
 
 	std::string src_string = 
 		"__kernel void factor8to1(unsigned int limit, global int *results)  \n"
@@ -97,19 +80,17 @@ int main(void) {
 	int* map = (int*)queue.enqueueMapBuffer(buff, CL_TRUE, CL_MAP_WRITE, 0, 2*sizeof(int));
 	map[0] = map[1] = 0;
 	queue.enqueueUnmapMemObject(buff, map);  
-	struct timeval t;
 
 	kernel.setArg(0, (cl_int)15000);
 	kernel.setArg(1, buff);
 
-    // Dummy calls
-//	cl::Event timeEvent;
-//	queue.enqueueNDRangeKernel(kernel, cl::NullRange, globalSize, localSize, NULL, NULL);
-//	queue.finish();
-	t = time_check();
-	queue.enqueueNDRangeKernel(kernel, cl::NullRange, globalSize, localSize, NULL, NULL);
-	queue.finish();
-	double elapsedTime = time_done(t);
+	cl::Event timeEvent;
+	queue.enqueueNDRangeKernel(kernel, cl::NullRange, globalSize, localSize, NULL, &timeEvent);
+	cl_ulong ev_t_start, ev_t_finish;
+	timeEvent.wait();
+	timeEvent.getProfilingInfo(CL_PROFILING_COMMAND_START, &ev_t_start);
+	timeEvent.getProfilingInfo(CL_PROFILING_COMMAND_END, &ev_t_finish);
+	double elapsedTime = (ev_t_finish-ev_t_start)/1000000.0;
 
 	map = (int*)queue.enqueueMapBuffer(buff, CL_TRUE, CL_MAP_READ, 0, 2*sizeof(int));  
 	std::cout << "i = " << map[0] << ", "
