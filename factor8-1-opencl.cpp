@@ -67,12 +67,16 @@ int main(void) {
 		"{                                    \n"
 		"	int i = get_global_id(0);         \n"
 		"	                                  \n"
+		"	unsigned int p1 = 0;              \n"
 		"   if( i<=limit )                    \n"
 		"		for(int j=i+1; j<=limit; j++) \n"
 		"			if( i*j==87654321 ){      \n"  // change to mul24 if 32bit multiplication is too slow
-		"				results[0] = i;       \n"
-		"				results[1] = j;       \n"
+		"				p1 = j;               \n"
 		"			}                         \n"
+		"	if( p1!=0 ){                      \n"
+		"		results[0] = i;               \n"
+		"		results[1] = p1;              \n"
+		"	}                                 \n"
 		"}                                    \n";  
 
 	cl::Program::Sources src(1, std::make_pair(src_string.c_str(), src_string.size()));  
