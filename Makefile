@@ -11,7 +11,7 @@ LIBPARS = -lOpenCL -lrt
 
 .PHONY: clean all
 
-all: factor8-1-opencl factor8-1-pas factor8-1 factor8-1-omp
+all: factor8-1-opencl factor8-1-pas factor8_1.class factor8-1 factor8-1-omp
 
 factor8-1-opencl: factor8-1-opencl.o
 	${CPP} ${LFLAGS} -o $@ $< ${LIBPARS}
@@ -22,6 +22,9 @@ factor8-1-opencl.o: factor8-1-opencl.cpp
 factor8-1-pas: factor8-1.pas
 	fpc -o$@ -O3 -MTP $<
 	rm factor8-1.o
+
+factor8_1.class: factor8_1.java
+	javac factor8_1.java
 
 factor8-1: factor8-1.o
 	gcc -o $@ $^
@@ -36,4 +39,4 @@ factor8-1-omp.o: factor8-1.c
 	gcc ${FLAGS} -c -O2 -o $@ -fopenmp $<
 
 clean:
-	rm factor8-1 factor8-1.o factor8-1-omp factor8-1-omp.o factor8-1-pas factor8-1-opencl factor8-1-opencl.o
+	rm factor8-1 factor8-1.o factor8-1-omp factor8-1-omp.o factor8-1-pas factor8_1.class factor8-1-opencl factor8-1-opencl.o

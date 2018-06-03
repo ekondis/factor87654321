@@ -25,10 +25,11 @@ The provided implementations are written in the following programming languages:
 
 1. Python
 2. JavaScript
-3. Free pascal compiler
-4. C
-5. OpenMP/C
-6. C + OpenCL
+3. Java
+4. Free pascal compiler
+5. C
+6. OpenMP/C
+7. C + OpenCL
 
 Example execution
 ---------------
