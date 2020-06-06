@@ -1,11 +1,10 @@
-#OCLSDKDIR = /usr/local/cuda
-OCLSDKDIR = ${AMDAPPSDKROOT}
+OCLSDKDIR = /usr/local/cuda
 CPP = g++
 OCLSDKINC = ${OCLSDKDIR}/include
-OCLSDKLIB = ${OCLSDKDIR}/lib/x86
+OCLSDKLIB = ${OCLSDKDIR}/lib64
 OPTFLAG = -O2 -fomit-frame-pointer
 INCLUDES = -I../common/inc
-FLAGS = ${OPTFLAG} ${INCLUDES} -I${OCLSDKINC} -msse -msse2 
+FLAGS = ${OPTFLAG} ${INCLUDES} -I${OCLSDKINC} -msse -msse2 -msse3 -mavx -fopt-info-vec-missed
 LFLAGS = -L${OCLSDKLIB} 
 LIBPARS = -lOpenCL -lrt
 
@@ -27,16 +26,16 @@ factor8_1.class: factor8_1.java
 	javac factor8_1.java
 
 factor8-1: factor8-1.o
-	gcc -o $@ $^
+	${CPP} -o $@ $^
 
 factor8-1.o: factor8-1.c
-	gcc ${FLAGS} -c -O2 $<
+	${CPP} ${FLAGS} -c -O2 $<
 
 factor8-1-omp: factor8-1-omp.o
-	gcc -o $@ -fopenmp $^
+	${CPP} -o $@ -fopenmp $^
 
 factor8-1-omp.o: factor8-1.c
-	gcc ${FLAGS} -c -O2 -o $@ -fopenmp $<
+	${CPP} ${FLAGS} -c -O2 -o $@ -fopenmp $<
 
 clean:
 	rm factor8-1 factor8-1.o factor8-1-omp factor8-1-omp.o factor8-1-pas factor8_1.class factor8-1-opencl factor8-1-opencl.o
