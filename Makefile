@@ -37,5 +37,11 @@ factor8-1-omp: factor8-1-omp.o
 factor8-1-omp.o: factor8-1.c
 	${CPP} ${FLAGS} -c -O2 -o $@ -fopenmp $<
 
+factor8-1-sycl: factor8-1-sycl.o
+	clang++ -O3 -fsycl $^ -o $@
+
+factor8-1-sycl.o: factor8-1-sycl.cpp
+	clang++ -O3 -fsycl -c $^ -o $@
+
 clean:
 	rm factor8-1 factor8-1.o factor8-1-omp factor8-1-omp.o factor8-1-pas factor8_1.class factor8-1-opencl factor8-1-opencl.o
